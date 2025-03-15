@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <title>CPSC 424, Lab 2, Exercise 1</title>
+    <style>
+      body {
+        background-color: #DDDDDD;
+      }
+      canvas {
+        background-color: rgb(25, 168, 212);
+        display: block;
+      }
+      #canvasholder {
+        border: 2px solid black;
+        float: left;
+      }
+    </style>
+    <script>
+      "use strict";
+      var canvas;
+      var graphics;
+      var pixelSize;
+
+ function draw() {
+    graphics.clearRect(0, 0, 600, 600);
+
+    // Trapez
+    graphics.fillStyle = "#FF00FF"; // różowe wypełnienie
+    graphics.strokeStyle = "#000000"; // obramowanie
+    graphics.lineWidth = 2.5;
+    graphics.beginPath();
+    graphics.moveTo(200, 150); // Lewa góra
+    graphics.lineTo(400, 150); // Prawa góra
+    graphics.lineTo(450, 250); // Prawy dół
+    graphics.lineTo(150, 250); // Lewy dół
+    graphics.closePath();
+    graphics.fill();
+    graphics.stroke();
+
+    // Trójkąt
+    graphics.fillStyle = "#FF00FF"; 
+    graphics.strokeStyle = "#000000"; 
+    graphics.beginPath();
+    graphics.moveTo(150, 250); // Lewa góra
+    graphics.lineTo(450, 250); // Prawa góra
+    graphics.lineTo(300, 500); // dół
+    graphics.closePath();
+    graphics.fill();
+    graphics.stroke();
+
+    //Oczy
+    graphics.fillStyle = "white";
+    graphics.fillCircle(270, 200, 20); // Lewe oko 
+    graphics.fillCircle(330, 200, 20); // Prawe oko 
+    graphics.fillStyle = "black";
+    graphics.fillCircle(270, 200, 13); // Lewe oko 
+    graphics.fillCircle(330, 200, 13); // Prawe oko 
+    graphics.fillStyle = "white";
+    graphics.fillCircle(265, 195, 2); // Lewe oko 
+    graphics.fillCircle(325, 195, 2); // Prawe oko 
+   //Uśmiech
+    graphics.fillStyle = "black";
+    graphics.beginPath();
+    graphics.moveTo(250, 280); // Początek uśmiechu
+    graphics.bezierCurveTo(290, 310, 310, 310, 350, 280); // Łuk uśmiechu
+    graphics.bezierCurveTo(320, 340, 280, 340, 250, 280); // Zamknięcie łuku
+    graphics.closePath();
+    graphics.fill();
+
+    //Zęby
+    graphics.fillStyle = "white";
+    graphics.fillRect(290, 305, 9, 15); // Lewy 
+    graphics.fillRect(300, 305, 9, 15); // Prawy 
+}
+
+      function addGraphicsContextExtras(graphics) {
+        graphics.strokeLine = function (x1, y1, x2, y2) {
+          this.beginPath();
+          this.moveTo(x1, y1);
+          this.lineTo(x2, y2);
+          this.stroke();
+        };
+        graphics.fillCircle = function (x, y, r) {
+          this.beginPath();
+          this.arc(x, y, r, 0, 2 * Math.PI, false);
+          this.fill();
+        };
+        graphics.strokeCircle = function (x, y, r) {
+          this.beginPath();
+          this.arc(x, y, r, 0, 2 * Math.PI, false);
+          this.stroke();
+        };
+        graphics.fillOval = function (x, y, rx, ry) {
+          this.save();
+          this.translate(x, y);
+          this.scale(rx, ry);
+          this.beginPath();
+          this.arc(0, 0, 1, 0, 2 * Math.PI, false);
+          this.restore();
+          this.fill();
+        };
+        graphics.strokeOval = function (x, y, rx, ry) {
+          this.save();
+          this.translate(x, y);
+          this.scale(rx, ry);
+          this.beginPath();
+          this.arc(0, 0, 1, 0, 2 * Math.PI, false);
+          this.restore();
+          this.stroke();
+        };
+      }
+
+      function init() {
+        try {
+          canvas = document.getElementById("canvas");
+          graphics = canvas.getContext("2d");
+        } catch (e) {
+          document.getElementById("canvasholder").innerHTML =
+            "Canvas graphics is not supported.<br>";
+        }
+        addGraphicsContextExtras(graphics);
+        draw();
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <h2>CS 424, Lab 2, Exercise 1</h2>
+    <div id="canvasholder">
+      <canvas id="canvas" width="600" height="600"></canvas>
+    </div>
+  </body>
+</html>
